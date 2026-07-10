@@ -1,0 +1,14 @@
+{
+    "name": "andrea-lorusso/laravel-loco",
+    "description": "Laravel Lo.Co. - Local Container for Laravel development. A simply approach.",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Andrea Lorusso",
+            "email": "andrea.lorusso@youniversal.com"
+        }
+    ],
+    "version": "0.0.0",
+    "require": {}
+}

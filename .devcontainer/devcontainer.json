@@ -1,0 +1,50 @@
+{
+  "name": "EIS admin",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "bd_admin_area_be_nginx",
+  "workspaceFolder": "/var/www",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh/config,target=/root/.ssh/config,type=bind,readonly",
+    "source=${localEnv:HOME}/.ssh/aws_codecommit,target=/root/.ssh/aws_codecommit,type=bind,readonly",
+    "source=${localEnv:HOME}/.ssh/aws_codecommit.pub,target=/root/.ssh/aws_codecommit.pub,type=bind,readonly"
+  ],
+  "forwardPorts": [
+    3306,
+    80
+  ],
+  "portsAttributes": {
+    "80": {
+      "label": "Nginx",
+      "onAutoForward": "notify"
+    },
+    "3306": {
+      "label": "MySQL",
+      "onAutoForward": "silent"
+    },
+    "6379": {
+      "label": "Redis",
+      "onAutoForward": "silent"
+    },
+    /*"5173": {
+      "label": "Vite HMR",
+      "onAutoForward": "notify"
+    }*/
+  },
+  /*"postCreateCommand": "composer install && php artisan key:generate --force && php artisan migrate --force && yarn",*/
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "mikestead.dotenv",
+        "anthropic.claude-code",
+        "mhutchie.git-graph",
+        "dongido.sync-env"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "php.format.codeStyle": "PSR-2",
+        "editor.formatOnSave": true
+      }
+    }
+  }
+}

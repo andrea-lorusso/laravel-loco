@@ -1,0 +1,89 @@
+services:
+  laravel_loco_php_fpm:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    image: laravel_loco_php_fpm
+    container_name: laravel_loco_php_fpm
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - laravel_loco_mysql
+      - laravel_loco_redis
+    networks:
+      - laravel_loco_network
+
+  laravel_loco_nginx:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./.docker/nginx/Dockerfile
+    image: laravel_loco_nginx
+    container_name: laravel_loco_nginx
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx:/etc/nginx/conf.d
+      - ./.docker/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - laravel_loco_php_fpm
+    networks:
+      - laravel_loco_network
+
+  laravel_loco_mysql:
+    image: mysql:8.0
+    container_name: laravel_loco_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${DB_USERNAME:-laravel}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports:
+      - '${DB_PORT:-3306}:3306'
+    volumes:
+      - ./storage/mysqldata:/var/lib/mysql
+    networks:
+      - laravel_loco_network
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-proot'
+      retries: 3
+      timeout: 5s
+
+  laravel_loco_redis:
+    image: redis:alpine
+    container_name: laravel_loco_redis
+    ports:
+      - ${FORWARD_REDIS_PORT:-6379}:6379
+    volumes:
+      - ./storage/redisdata:/data
+    networks:
+      - laravel_loco_network
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+
+networks:
+  laravel_loco_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.210.0/24

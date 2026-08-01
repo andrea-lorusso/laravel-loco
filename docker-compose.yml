@@ -35,6 +35,7 @@ services:
       - ./.docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
       - laravel_loco_php_fpm
+      - laravel_loco_mysql
     networks:
       - laravel_loco_network
 

@@ -1,16 +1,17 @@
 {
-  "name": "EIS admin",
+  "name": "Laravel Lo. Co.",
   "dockerComposeFile": "../docker-compose.yml",
-  "service": "bd_admin_area_be_nginx",
+  "initializeCommand": "bash .devcontainer/bootstrap.sh",
+  "service": "laravel_loco_nginx",
   "workspaceFolder": "/var/www",
   "mounts": [
     "source=${localEnv:HOME}/.ssh/config,target=/root/.ssh/config,type=bind,readonly",
-    "source=${localEnv:HOME}/.ssh/aws_codecommit,target=/root/.ssh/aws_codecommit,type=bind,readonly",
-    "source=${localEnv:HOME}/.ssh/aws_codecommit.pub,target=/root/.ssh/aws_codecommit.pub,type=bind,readonly"
   ],
   "forwardPorts": [
     3306,
-    80
+    80,
+    5173,
+    6379
   ],
   "portsAttributes": {
     "80": {
@@ -25,25 +26,80 @@
       "label": "Redis",
       "onAutoForward": "silent"
     },
-    /*"5173": {
+    "5173": {
       "label": "Vite HMR",
       "onAutoForward": "notify"
-    }*/
+    }
   },
   /*"postCreateCommand": "composer install && php artisan key:generate --force && php artisan migrate --force && yarn",*/
   "customizations": {
     "vscode": {
       "extensions": [
-        "bmewburn.vscode-intelephense-client",
-        "mikestead.dotenv",
-        "anthropic.claude-code",
-        "mhutchie.git-graph",
-        "dongido.sync-env"
+        "abusaidm.html-snippets",
+        "bmewburn.vscode-intelephense-client",  /* */
+        "dbaeumer.vscode-eslint",
+        "dongido.sync-env",                     /* */
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "gamunu.vscode-yarn",
+        "mhutchie.git-graph",                   /* */
+        "mikestead.dotenv",                     /* */
+        "mrmlnc.vscode-scss",
+        "shufo.vscode-blade-formatter",
+        "syler.sass-indented",
+        "wongjn.php-sniffer",
+        "zignd.html-css-class-completion"
       ],
       "settings": {
         "php.validate.executablePath": "/usr/local/bin/php",
         "php.format.codeStyle": "PSR-2",
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "editor.trimAutoWhitespace": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "files.encoding": "utf8",
+        "files.eol": "\n",
+        "[php]": {
+            "editor.defaultFormatter": "wongjn.php-sniffer",
+            "files.insertFinalNewline": true,
+            "files.trimTrailingWhitespace": true
+        },
+        "[html]": {
+            "editor.tabSize": 2
+        },
+        "[css]": {
+            "editor.tabSize": 2
+        },
+        "[javascript]": {
+            "editor.tabSize": 2
+        },
+        "[typescript]": {
+            "editor.tabSize": 2
+        },
+        "[javascriptreact]": {
+            "editor.tabSize": 2
+        },
+        "[typescriptreact]": {
+            "editor.tabSize": 2
+        },
+        "[yaml]": {
+            "editor.tabSize": 2
+        },
+        "[json]": {
+            "editor.tabSize": 2
+        },
+        "[markdown]": {
+            "editor.trimAutoWhitespace": false
+        },
+        "phpSniffer.run": "onSave",
+        "phpSniffer.standard": "phpcs.xml",
+        "phpSniffer.autoDetect": false,
+        "phpSniffer.executablesFolder": "library/vendor/bin/",
+        "phpunit.phpunit": "/var/www/tests/vendor/bin/phpunit",
+        "phpunit.args": ["-c", "/var/www/tests/phpunit.xml"]
       }
     }
   }

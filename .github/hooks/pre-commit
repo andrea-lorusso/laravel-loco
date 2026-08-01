@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Redirect stdout to stderr: VSCode only logs stderr from hooks,
+# without this, the output of echo/PHPStan/PHPUnit does not appear in the Git channel.
+exec 1>&2
+
+exit 0

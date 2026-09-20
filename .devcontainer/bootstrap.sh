@@ -8,3 +8,13 @@ if [ ! -f ../.docker/.env ]; then
    echo "The .env file does not exist. Copying from the example..."
    cp ../.docker/.env.example ../.docker/.env
 fi
+
+# If the nginx SSL certificate does not exist, generate a self-signed one
+if [ ! -f ../.docker/nginx/ssl/default.crt ]; then
+   echo "The nginx SSL certificate does not exist. Generating a self-signed one..."
+   mkdir -p ../.docker/nginx/ssl
+   openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+     -keyout ../.docker/nginx/ssl/default.key \
+     -out ../.docker/nginx/ssl/default.crt \
+     -subj "/CN=localhost"
+fi

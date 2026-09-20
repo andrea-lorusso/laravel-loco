@@ -1,6 +1,6 @@
 {
   "name": "Laravel Lo. Co.",
-  "dockerComposeFile": "../docker-compose.yml",
+  "dockerComposeFile": "../docker-compose-local.yml",
   "initializeCommand": "bash .devcontainer/bootstrap.sh",
   "service": "laravel_loco_nginx",
   "workspaceFolder": "/var/www",
@@ -34,24 +34,6 @@
   /*"postCreateCommand": "composer install && php artisan key:generate --force && php artisan migrate --force && yarn",*/
   "customizations": {
     "vscode": {
-      "extensions": [
-        "abusaidm.html-snippets",
-        "bmewburn.vscode-intelephense-client",  /* */
-        "dbaeumer.vscode-eslint",
-        "dongido.sync-env",                     /* */
-        "editorconfig.editorconfig",
-        "esbenp.prettier-vscode",
-        "formulahendry.auto-close-tag",
-        "formulahendry.auto-rename-tag",
-        "gamunu.vscode-yarn",
-        "mhutchie.git-graph",                   /* */
-        "mikestead.dotenv",                     /* */
-        "mrmlnc.vscode-scss",
-        "shufo.vscode-blade-formatter",
-        "syler.sass-indented",
-        "wongjn.php-sniffer",
-        "zignd.html-css-class-completion"
-      ],
       "settings": {
         "php.validate.executablePath": "/usr/local/bin/php",
         "php.format.codeStyle": "PSR-2",
@@ -63,7 +45,6 @@
         "files.encoding": "utf8",
         "files.eol": "\n",
         "[php]": {
-            "editor.defaultFormatter": "wongjn.php-sniffer",
             "files.insertFinalNewline": true,
             "files.trimTrailingWhitespace": true
         },
@@ -94,10 +75,6 @@
         "[markdown]": {
             "editor.trimAutoWhitespace": false
         },
-        "phpSniffer.run": "onSave",
-        "phpSniffer.standard": "phpcs.xml",
-        "phpSniffer.autoDetect": false,
-        "phpSniffer.executablesFolder": "library/vendor/bin/",
         "phpunit.phpunit": "/var/www/tests/vendor/bin/phpunit",
         "phpunit.args": ["-c", "/var/www/tests/phpunit.xml"]
       }

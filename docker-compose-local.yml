@@ -12,8 +12,10 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - laravel_loco_mysql
-      - laravel_loco_redis
+      laravel_loco_mysql:
+        condition: service_healthy
+      laravel_loco_redis:
+        condition: service_healthy
     networks:
       - laravel_loco_network
 
@@ -34,8 +36,10 @@ services:
       - ./.docker/nginx:/etc/nginx/conf.d
       - ./.docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
-      - laravel_loco_php_fpm
-      - laravel_loco_mysql
+      laravel_loco_php_fpm:
+        condition: service_started
+      laravel_loco_mysql:
+        condition: service_healthy
     networks:
       - laravel_loco_network
 
@@ -62,8 +66,10 @@ services:
         - mysqladmin
         - ping
         - '-proot'
-      retries: 3
+      interval: 5s
       timeout: 5s
+      retries: 5
+      start_period: 20s
 
   laravel_loco_redis:
     image: redis:alpine
@@ -79,8 +85,9 @@ services:
         - CMD
         - redis-cli
         - ping
-      retries: 3
+      interval: 5s
       timeout: 5s
+      retries: 5
 
 networks:
   laravel_loco_network:

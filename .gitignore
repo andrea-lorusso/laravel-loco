@@ -28,3 +28,6 @@ Thumbs.db
 
 /storage/mysqldata
 /storage/redisdata
+
+/.docker/nginx/ssl/*.crt
+/.docker/nginx/ssl/*.key

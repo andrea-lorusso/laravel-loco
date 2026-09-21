@@ -4,9 +4,9 @@ echo "Executing bootstrap script for the devcontainer..."
 cd "$(dirname "$0")"
 
 # If the .env file does not exist, copy it from the example
-if [ ! -f ../.docker/.env ]; then
+if [ ! -f ../.env ]; then
    echo "The .env file does not exist. Copying from the example..."
-   cp ../.docker/.env.example ../.docker/.env
+   cp ../.env.example ../.env
 fi
 
 # If the nginx SSL certificate does not exist, generate a self-signed one

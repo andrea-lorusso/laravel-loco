@@ -2,8 +2,13 @@
   "name": "Laravel Lo. Co.",
   "dockerComposeFile": "../docker-compose-local.yml",
   "initializeCommand": "bash .devcontainer/bootstrap.sh",
-  "service": "laravel_loco_nginx",
+  "service": "laravel_loco_php_fpm",
   "workspaceFolder": "/var/www",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
   "mounts": [
     "source=${localEnv:HOME}/.ssh/config,target=/root/.ssh/config,type=bind,readonly",
   ],
@@ -31,7 +36,7 @@
       "onAutoForward": "notify"
     }
   },
-  /*"postCreateCommand": "composer install && php artisan key:generate --force && php artisan migrate --force && yarn",*/
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "settings": {
@@ -75,8 +80,8 @@
         "[markdown]": {
             "editor.trimAutoWhitespace": false
         },
-        "phpunit.phpunit": "/var/www/tests/vendor/bin/phpunit",
-        "phpunit.args": ["-c", "/var/www/tests/phpunit.xml"]
+        "phpunit.phpunit": "/var/www/vendor/bin/phpunit",
+        "phpunit.args": ["-c", "/var/www/phpunit.xml"]
       }
     }
   }

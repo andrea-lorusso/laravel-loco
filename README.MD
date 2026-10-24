@@ -60,7 +60,7 @@ Once completed, the application is available at [https://lvh.me/](https://lvh.me
 
 # How the environment is wired
 
-- A single `.env` at the project root is used both by `docker-compose-local.yml` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_PORT`, `FORWARD_REDIS_PORT`) and, after scaffolding, by Laravel itself — this keeps the container credentials and the app's database connection in sync with a single source of truth. Copy `.env.example` to `.env` to customize them (rebuild the containers afterwards).
+- A single `.env` at the project root is used both by `docker-compose-local.yml` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_PORT`, `FORWARD_REDIS_PORT`) and, after scaffolding, by Laravel itself — this keeps the container credentials and the app's database connection in sync with a single source of truth. Edit `.env` to customize them (rebuild the containers afterwards - refer to `.env.example` for original vallues).
 - Inside the container network, MySQL is reachable at `laravel_loco_mysql:3306` and Redis at `laravel_loco_redis:6379` — those are the values `post-create.sh` writes into Laravel's `.env` as `DB_HOST`/`REDIS_HOST`. From your host machine, use `localhost` with the ports forwarded in `.devcontainer/devcontainer.json` instead.
 - For frontend assets, run `npm run dev` inside the container terminal; the forwarded port `5173` will pick up Vite's HMR server (already configured to bind `0.0.0.0`).
 

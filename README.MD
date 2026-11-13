@@ -70,3 +70,11 @@ Once completed, the application is available at [https://lvh.me/](https://lvh.me
 - **`https://lvh.me` doesn't resolve** — `lvh.me` and any of its subdomains publicly resolve to `127.0.0.1`; if your network blocks external DNS, add `127.0.0.1 lvh.me` to your hosts file and use `https://localhost/` instead.
 - **Certificate warnings** — expected, since `.docker/nginx/ssl/*.crt|*.key` are self-signed and generated per clone (they're gitignored, never committed).
 - **Changed PHP version or extensions** — edit `.docker/php/Dockerfile` and use "Dev Containers: Rebuild Container".
+
+# Versioning & releases
+
+Releases are fully automated with [semantic-release](https://semantic-release.gitbook.io/) and driven by [Conventional Commits](https://www.conventionalcommits.org/):
+
+- `main` is protected: changes land only through approved pull requests. Commit messages in every PR are validated by the **Commit lint** workflow.
+- On every merge into `main` the **Release** workflow computes the next version (`fix`/`perf` → patch, `feat` → minor, `!`/`BREAKING CHANGE` → major), updates `CHANGELOG.md` and `VERSION`, commits them back to `main` as `chore(release): x.y.z [skip ci]`, tags `vx.y.z` and publishes a GitHub Release. The commit is pushed by a dedicated GitHub App, the only actor allowed to bypass the branch rules.
+- The application reads its version from the `VERSION` file via `config('app.version')` (overridable with the `APP_VERSION` env variable) and it is shown by `php artisan about`.

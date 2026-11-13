@@ -17,6 +17,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    |
+    | The semantic version of the application. It is written to the VERSION
+    | file in the project root by semantic-release on every release of the
+    | main branch. APP_VERSION can override it (e.g. in container builds).
+    | Read it anywhere with config('app.version').
+    |
+    */
+
+    'version' => env('APP_VERSION', is_file(base_path('VERSION'))
+        ? trim((string) file_get_contents(base_path('VERSION')))
+        : 'dev'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/andrea-lorusso/laravel-loco/compare/v1.0.0...v1.1.0) (2026-11-15)
+
+### Features
+
+* add watch configuration to server settings in vite.config.js ([17447a2](https://github.com/andrea-lorusso/laravel-loco/commit/17447a24aa0877c55327d3eb12c8d684585d8697))
+* Refactor code structure for improved readability and maintainability of presentation page ([2fe64af](https://github.com/andrea-lorusso/laravel-loco/commit/2fe64af5c0078154885574d74d297100785d70f4))
+* Remove Tailwind CSS plugin from Vite configuration ([7ba6934](https://github.com/andrea-lorusso/laravel-loco/commit/7ba6934ca422e2e9044d49a2b502f357f9004c50))
+
 ## 1.0.0 (2026-11-13)
 
 ### Features

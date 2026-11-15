@@ -58,6 +58,16 @@ On first creation the container will automatically:
 
 Once completed, the application is available at [https://lvh.me/](https://lvh.me/) (the certificate is self-signed, so your browser will show a warning the first time — this is expected in local development).
 
+> [!IMPORTANT]
+> To reach the `lvh.me` host, map it to `127.0.0.1` in your hosts file. Unlike `localhost`, `lvh.me` is a regular public domain resolved through DNS, and many routers and DNS resolvers drop answers that point to private IPs (DNS rebinding protection). When that happens, Chrome shows `ERR_NAME_NOT_RESOLVED`. On macOS, run:
+>
+> ```sh
+> sudo sh -c 'echo "127.0.0.1 lvh.me" >> /etc/hosts'
+> sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder
+> ```
+>
+> Then clear Chrome's DNS cache from `chrome://net-internals/#dns` ("Clear host cache"). The hosts file does not support wildcards, so add a separate line for each subdomain you use (e.g. `127.0.0.1 app.lvh.me`).
+
 # How the environment is wired
 
 - A single `.env` at the project root is used both by `docker-compose-local.yml` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_PORT`, `FORWARD_REDIS_PORT`) and, after scaffolding, by Laravel itself — this keeps the container credentials and the app's database connection in sync with a single source of truth. Edit `.env` to customize them (rebuild the containers afterwards - refer to `.env.example` for original vallues).
@@ -67,7 +77,7 @@ Once completed, the application is available at [https://lvh.me/](https://lvh.me
 # Troubleshooting
 
 - **Blank/500 page on first boot** — the DB might still be migrating; check the "Dev Containers" output panel or re-run `.devcontainer/post-create.sh` manually from the integrated terminal.
-- **`https://lvh.me` doesn't resolve** — `lvh.me` and any of its subdomains publicly resolve to `127.0.0.1`; if your network blocks external DNS, add `127.0.0.1 lvh.me` to your hosts file and use `https://localhost/` instead.
+- **`https://lvh.me` doesn't resolve (`ERR_NAME_NOT_RESOLVED`)** — your DNS is filtering the `127.0.0.1` answer for `lvh.me`. Add the hosts file entry and flush the DNS caches as described in [Installation](#installation). You can check with `dig +short lvh.me`: an empty result means the lookup is being blocked. Meanwhile, `https://localhost/` always works.
 - **Certificate warnings** — expected, since `.docker/nginx/ssl/*.crt|*.key` are self-signed and generated per clone (they're gitignored, never committed).
 - **Changed PHP version or extensions** — edit `.docker/php/Dockerfile` and use "Dev Containers: Rebuild Container".
 

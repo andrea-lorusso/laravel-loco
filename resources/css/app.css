@@ -1,9 +1,47 @@
-@import 'tailwindcss';
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --bs-body-font-family: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Welcome page */
+:root {
+    --loco-red: #f44336;
+    --loco-red-dark: #d32f2f;
+}
+
+.text-loco {
+    color: var(--loco-red);
+}
+
+.btn-loco {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--loco-red);
+    --bs-btn-border-color: var(--loco-red);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--loco-red-dark);
+    --bs-btn-hover-border-color: var(--loco-red-dark);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--loco-red-dark);
+    --bs-btn-active-border-color: var(--loco-red-dark);
+    --bs-btn-focus-shadow-rgb: 244, 67, 54;
+}
+
+.welcome {
+    background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(244, 67, 54, 0.08), transparent 70%),
+        linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.welcome-logo {
+    width: 300px;
+    height: auto;
+    filter: drop-shadow(0 1rem 1.5rem rgba(0, 0, 0, 0.12));
+}
+
+.welcome-clone {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
 }

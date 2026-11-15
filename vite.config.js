@@ -9,6 +9,9 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: { host: 'localhost' },
+        watch: {
+            ignored: ['**/storage/framework/views/**'],
+        },
     },
     plugins: [
         laravel({
@@ -22,9 +25,4 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
-    server: {
-        watch: {
-            ignored: ['**/storage/framework/views/**'],
-        },
-    },
 });

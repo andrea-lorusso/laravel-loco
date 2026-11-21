@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/andrea-lorusso/laravel-loco/compare/v1.1.0...v1.1.1) (2026-11-21)
+
+### Bug Fixes
+
+* update .env.example ([#6](https://github.com/andrea-lorusso/laravel-loco/issues/6)) ([a012f86](https://github.com/andrea-lorusso/laravel-loco/commit/a012f86abf19495ca444d69452a1a36d0afc5895))
+* update .env.example for correct APP_URL and session/queue/cache configurations ([fdba47d](https://github.com/andrea-lorusso/laravel-loco/commit/fdba47def3cf97421050963536d6a34edf8a00dd))
+
 ## [1.1.0](https://github.com/andrea-lorusso/laravel-loco/compare/v1.0.0...v1.1.0) (2026-11-15)
 
 ### Features

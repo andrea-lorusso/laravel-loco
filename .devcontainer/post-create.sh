@@ -7,8 +7,10 @@ cd /var/www
 DOCKER_DB_DATABASE="laravel"
 DOCKER_DB_USERNAME="laravel"
 DOCKER_DB_PASSWORD="secret"
-DOCKER_DB_PORT="3306"
-DOCKER_REDIS_PORT="6379"
+APP_PORT_VALUE="80"
+APP_SSL_PORT_VALUE="443"
+FORWARD_DB_PORT_VALUE="3306"
+FORWARD_REDIS_PORT_VALUE="6379"
 if [ -f .env ]; then
   set -a
   # shellcheck disable=SC1091
@@ -17,8 +19,10 @@ if [ -f .env ]; then
   DOCKER_DB_DATABASE="${DB_DATABASE:-$DOCKER_DB_DATABASE}"
   DOCKER_DB_USERNAME="${DB_USERNAME:-$DOCKER_DB_USERNAME}"
   DOCKER_DB_PASSWORD="${DB_PASSWORD:-$DOCKER_DB_PASSWORD}"
-  DOCKER_DB_PORT="${DB_PORT:-$DOCKER_DB_PORT}"
-  DOCKER_REDIS_PORT="${FORWARD_REDIS_PORT:-$DOCKER_REDIS_PORT}"
+  APP_PORT_VALUE="${APP_PORT:-$APP_PORT_VALUE}"
+  APP_SSL_PORT_VALUE="${APP_SSL_PORT:-$APP_SSL_PORT_VALUE}"
+  FORWARD_DB_PORT_VALUE="${FORWARD_DB_PORT:-$FORWARD_DB_PORT_VALUE}"
+  FORWARD_REDIS_PORT_VALUE="${FORWARD_REDIS_PORT:-$FORWARD_REDIS_PORT_VALUE}"
 fi
 
 set_env_var() {
@@ -61,15 +65,21 @@ composer install --no-interaction
 set_env_var APP_URL "https://lvh.me"
 set_env_var DB_CONNECTION mysql
 set_env_var DB_HOST laravel_loco_mysql
-set_env_var DB_PORT "$DOCKER_DB_PORT"
+# Internal container ports: always the defaults, regardless of the host ports published.
+set_env_var DB_PORT 3306
 set_env_var DB_DATABASE "$DOCKER_DB_DATABASE"
 set_env_var DB_USERNAME "$DOCKER_DB_USERNAME"
 set_env_var DB_PASSWORD "$DOCKER_DB_PASSWORD"
 set_env_var REDIS_HOST laravel_loco_redis
-set_env_var REDIS_PORT "$DOCKER_REDIS_PORT"
+set_env_var REDIS_PORT 6379
 set_env_var SESSION_DRIVER redis
 set_env_var CACHE_STORE redis
 set_env_var QUEUE_CONNECTION redis
+# Host ports used by docker-compose-local.yml.
+set_env_var APP_PORT "$APP_PORT_VALUE"
+set_env_var APP_SSL_PORT "$APP_SSL_PORT_VALUE"
+set_env_var FORWARD_DB_PORT "$FORWARD_DB_PORT_VALUE"
+set_env_var FORWARD_REDIS_PORT "$FORWARD_REDIS_PORT_VALUE"
 
 if ! grep -q '^APP_KEY=base64' .env 2>/dev/null; then
   php artisan key:generate --force

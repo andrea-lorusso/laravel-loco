@@ -29,8 +29,8 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
-      - '80:80'
-      - '443:443'
+      - '${APP_PORT:-80}:80'
+      - '${APP_SSL_PORT:-443}:443'
     volumes:
       - ./:/var/www
       - ./.docker/nginx:/etc/nginx/conf.d
@@ -55,7 +55,7 @@ services:
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     ports:
-      - '${DB_PORT:-3306}:3306'
+      - '${FORWARD_DB_PORT:-3306}:3306'
     volumes:
       - ./storage/mysqldata:/var/lib/mysql
     networks:
@@ -75,7 +75,7 @@ services:
     image: redis:alpine
     container_name: laravel_loco_redis
     ports:
-      - ${FORWARD_REDIS_PORT:-6379}:6379
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
     volumes:
       - ./storage/redisdata:/data
     networks:

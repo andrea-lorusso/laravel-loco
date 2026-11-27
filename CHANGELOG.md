@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/andrea-lorusso/laravel-loco/compare/v1.1.1...v1.2.0) (2026-11-27)
+
+### Features
+
+* enhance welcome page with MySQL and Redis version display ([90110cd](https://github.com/andrea-lorusso/laravel-loco/commit/90110cde44e875e6175fdc6bc1dcdc60f8049456))
+* upgrade PHP to 8.5 and enhance environment variable configuration ([a5c7f56](https://github.com/andrea-lorusso/laravel-loco/commit/a5c7f56258775232c9d8d1337eb99290370cbe93))
+
+### Bug Fixes
+
+* restore and reorganize environment variables in .env.example ([11cd751](https://github.com/andrea-lorusso/laravel-loco/commit/11cd751989acef58453e672b6c1256151ffd6b8a))
+* upgrade PHP version to 8.5 in Dockerfile ([2328bd6](https://github.com/andrea-lorusso/laravel-loco/commit/2328bd6093a73053b2846fee75618d593123901a))
+
 ## [1.1.1](https://github.com/andrea-lorusso/laravel-loco/compare/v1.1.0...v1.1.1) (2026-11-21)
 
 ### Bug Fixes

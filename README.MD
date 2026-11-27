@@ -29,7 +29,7 @@ Co.
 
 # What this is
 
-A ready-to-use [Dev Containers](https://containers.dev/) setup for local Laravel development: nginx (HTTPS via a self-signed certificate), PHP-FPM 8.3 with Node.js, MySQL 8.0 and Redis, all wired together automatically. This repository ships **no Laravel application code** — on first boot it scaffolds a fresh `laravel/laravel` install for you and connects it to the containers, so you (or whoever forks this) always start from the latest Laravel release.
+A ready-to-use [Dev Containers](https://containers.dev/) setup for local Laravel development: nginx (HTTPS via a self-signed certificate), PHP-FPM 8.5 with Node.js, MySQL 8.0 and Redis, all wired together automatically. This repository ships **no Laravel application code** — on first boot it scaffolds a fresh `laravel/laravel` install for you and connects it to the containers, so you (or whoever forks this) always start from the latest Laravel release.
 
 # Prerequisites
 
@@ -70,8 +70,18 @@ Once completed, the application is available at [https://lvh.me/](https://lvh.me
 
 # How the environment is wired
 
-- A single `.env` at the project root is used both by `docker-compose-local.yml` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`, `DB_PORT`, `FORWARD_REDIS_PORT`) and, after scaffolding, by Laravel itself — this keeps the container credentials and the app's database connection in sync with a single source of truth. Edit `.env` to customize them (rebuild the containers afterwards - refer to `.env.example` for original vallues).
-- Inside the container network, MySQL is reachable at `laravel_loco_mysql:3306` and Redis at `laravel_loco_redis:6379` — those are the values `post-create.sh` writes into Laravel's `.env` as `DB_HOST`/`REDIS_HOST`. From your host machine, use `localhost` with the ports forwarded in `.devcontainer/devcontainer.json` instead.
+- A single `.env` at the project root is used both by `docker-compose-local.yml` (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` and the host ports below) and, after scaffolding, by Laravel itself — this keeps the container credentials and the app's database connection in sync with a single source of truth. Edit `.env` to customize them (rebuild the containers afterwards - refer to `.env.example` for original vallues).
+- The ports published on your host machine are configurable in `.env` (re-create the containers after changing them, e.g. `docker compose -f docker-compose-local.yml up -d`):
+
+  | Variable             | Default | Service        |
+  | -------------------- | ------- | -------------- |
+  | `APP_PORT`           | `80`    | nginx (HTTP)   |
+  | `APP_SSL_PORT`       | `443`   | nginx (HTTPS)  |
+  | `FORWARD_DB_PORT`    | `3306`  | MySQL          |
+  | `FORWARD_REDIS_PORT` | `6379`  | Redis          |
+
+  These only change the host side of the mapping: `DB_PORT` and `REDIS_PORT` must stay `3306`/`6379`, because Laravel connects to the containers over the internal network. If you change `APP_PORT`/`APP_SSL_PORT`, update `APP_URL` accordingly (e.g. `https://lvh.me:8443`).
+- Inside the container network, MySQL is reachable at `laravel_loco_mysql:3306` and Redis at `laravel_loco_redis:6379` — those are the values `post-create.sh` writes into Laravel's `.env` as `DB_HOST`/`REDIS_HOST`. From your host machine, use `localhost` with the `FORWARD_DB_PORT`/`FORWARD_REDIS_PORT` ports instead.
 - For frontend assets, run `npm run dev` inside the container terminal; the forwarded port `5173` will pick up Vite's HMR server (already configured to bind `0.0.0.0`).
 
 # Troubleshooting
